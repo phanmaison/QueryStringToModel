@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "AzureFunction": {
+      "commandName": "Project",
+      "commandLineArgs": "host start --port 6868 --pause-on-error"
+    }
+  }
+}
