@@ -1,9 +1,10 @@
+using AzureFunction.Helpers;
+using AzureFunction.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
 using System;
 
 namespace AzureFunction
@@ -17,13 +18,14 @@ namespace AzureFunction
         {
             try
             {
-                var param = QueryStringToModelConverter.GetModelFromQueryString<Model1>(req);
+                var param = QueryStringHelper.GetModelFromQueryString<TopModel>(req);
 
                 return new JsonResult(param);
             }
             catch (Exception ex)
             {
                 log.LogError(ex, ex.Message);
+                Console.WriteLine(ex.StackTrace);
                 return new ContentResult
                 {
                     StatusCode = 500,

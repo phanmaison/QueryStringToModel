@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace AzureFunction
+namespace AzureFunction.Models
 {
-    public class Model1
+    public class TopModel
     {
-
         public string String1 { get; set; }
 
         public int Int1 { get; set; }
@@ -14,13 +13,16 @@ namespace AzureFunction
 
         public DateTime Date1 { get; set; }
 
-        public List<string> List1 { get; set; }
+        public List<string> ListString1 { get; set; }
 
-        public List<Model2> Model2s { get; set; }
+        public List<int> ListInt1 { get; set; }
+        public List<DateTime> ListDate1 { get; set; }
+
+        public List<SubModel1> Model2s { get; set; }
 
     }
 
-    public class Model2
+    public class SubModel1
     {
         public string String2 { get; set; }
 
@@ -30,12 +32,12 @@ namespace AzureFunction
 
         public DateTime Date2 { get; set; }
 
-        public Model3 Model3 { get; set; }
+        public SubModel2 Model3 { get; set; }
 
-        public List<Model3> Model3s { get; set; }
+        public List<SubModel2> Model3s { get; set; }
     }
 
-    public class Model3
+    public class SubModel2
     {
         public string String3 { get; set; }
 
@@ -44,6 +46,5 @@ namespace AzureFunction
         public double Double3 { get; set; }
 
         public DateTime Date3 { get; set; }
-
     }
 }
