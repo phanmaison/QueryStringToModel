@@ -80,7 +80,7 @@ namespace AzureFunction.Helpers
 
                     // expect to stop here, there should be no more property
                     if (currentIndex != listProperties.Length - 2)
-                        throw new Exception($"Something wrong with param='{paramName}', value='{string.Join(",", value)}'");
+                        throw new ArgumentException($"Invalid parameter: name='{paramName}', value='{string.Join(",", value)}'");
 
                     return;
                 }
@@ -132,7 +132,7 @@ namespace AzureFunction.Helpers
         private static void ValidateSingleValue(StringValues value)
         {
             if (value.Count > 1)
-                throw new ArgumentException("Value should contain 1 item only: " + string.Join(",", value));
+                throw new ArgumentException("Invalid value: value should contain 1 item only: " + string.Join(",", value));
         }
     }
 }
