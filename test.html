@@ -2,7 +2,41 @@
 <head>
     <title>Test Query string to model</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <style>
+        body {
+            padding-top: 20px;
+            text-align: left;
+        }
+
+        .json {
+            color: green;
+            margin: 0;
+            border: 1px solid #ccc;
+            padding: 4px 10px;
+            border-radius: 4px;
+            min-height: 2.5rem;
+            font-size: 8pt;
+        }
+
+        .json-key {
+            color: red;
+        }
+
+        .json-value {
+            color: blue;
+        }
+
+        .json-string {
+            color: darkviolet;
+        }
+
+        .error {
+            color: red;
+        }
+    </style>
     <script>
+        // model
         var queryParam = {
             string1: "top@string\" #1",
             int1: 101,
@@ -66,7 +100,30 @@
                 }
             ]
         };
+    </script>
+    <script>
+        function showResponse(response, status, xhr) {
+            console.log("response", response);
+            $("#response").html(library.json.prettyPrint(response));
+        }
 
+        function sendQuery() {
+            $("#response").html("");
+
+            $.get("http://localhost:6868/api/query-string", queryParam, showResponse);
+        }
+
+        function sendJson() {
+            $("#response").html("");
+
+            var request = encodeURIComponent(JSON.stringify(queryParam));
+
+            $.get("http://localhost:6868/api/json?request=" + request, null, showResponse);
+
+        }
+    </script>
+    <script>
+        // utilities
         $(document).ajaxError(function (event, xhr, setting) {
             console.log("event", event);
             console.log("xhr", xhr);
@@ -75,28 +132,6 @@
             $("#response").html("<span class='error'>error in sending request, see console for detail</span>");
         });
 
-        function sendRequest() {
-            $("#response").html("");
-
-            $.get("http://localhost:6868/api/query-string", queryParam, function (response, status, xhr) {
-                console.log("response", response);
-                $("#response").html(library.json.prettyPrint(response));
-            });
-        }
-
-        function sendJson() {
-            $("#response").html("");
-
-            var request = encodeURIComponent(JSON.stringify(queryParam));
-
-            $.get("http://localhost:6868/api/json?request=" + request, null, function (response, status, xhr) {
-                console.log("response", response);
-                $("#response").html(library.json.prettyPrint(response));
-            });
-
-        }
-    </script>
-    <script>
         if (!library)
             var library = {};
 
@@ -125,39 +160,6 @@
             $("#request").html(library.json.prettyPrint(queryParam));
         });
     </script>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
-    <style>
-        body {
-            padding-top: 20px;
-            text-align: left;
-        }
-
-        .json {
-            color: green;
-            margin: 0;
-            border: 1px solid #ccc;
-            padding: 4px 10px;
-            border-radius: 4px;
-            min-height: 2.5rem;
-            font-size: 8pt;
-        }
-
-        .json-key {
-            color: brown;
-        }
-
-        .json-value {
-            color: navy;
-        }
-
-        .json-string {
-            color: olive;
-        }
-
-        .error {
-            color: red;
-        }
-    </style>
 </head>
 <body>
     <table class="table table-borderless">
@@ -171,14 +173,14 @@
             </td>
         </tr>
         <tr>
-            <td style="width: 10%">
+            <td style="width: 20%; text-align:right">
                 <button class="btn btn-outline-primary" onclick="sendJson();">#1 Send Json</button><br /><br />
-                <button class="btn btn-outline-primary" onclick="sendRequest();">#2 Send Request</button><br />
+                <button class="btn btn-outline-primary" onclick="sendQuery();">#2 Send Query</button><br />
             </td>
-            <td style="width:45%">
+            <td style="width:40%">
                 <pre class="json" id="request"></pre>
             </td>
-            <td style="width:45%">
+            <td style="width:40%">
                 <pre class="json" id="response"></pre>
             </td>
         </tr>
