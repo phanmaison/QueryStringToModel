@@ -83,6 +83,18 @@
                 $("#response").html(library.json.prettyPrint(response));
             });
         }
+
+        function sendJson() {
+            $("#response").html("");
+
+            var request = encodeURIComponent(JSON.stringify(queryParam));
+
+            $.get("http://localhost:6868/api/json?request=" + request, null, function (response, status, xhr) {
+                console.log("response", response);
+                $("#response").html(library.json.prettyPrint(response));
+            });
+
+        }
     </script>
     <script>
         if (!library)
@@ -160,7 +172,8 @@
         </tr>
         <tr>
             <td style="width: 10%">
-                <button class="btn btn-outline-primary" onclick="sendRequest();">Send Request</button>
+                <button class="btn btn-outline-primary" onclick="sendJson();">#1 Send Json</button><br /><br />
+                <button class="btn btn-outline-primary" onclick="sendRequest();">#2 Send Request</button><br />
             </td>
             <td style="width:45%">
                 <pre class="json" id="request"></pre>
